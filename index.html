@@ -119,17 +119,17 @@
         <h1 class="hero-title">ZIM: Zero-Shot Image Matting for Anything</h1>
         <div class="hero-subtitle">Tách nền độ chính xác cao mà không cần Trimap đầu vào</div>
         <div class="cards-container">
-            <div class="glass-card"><h3>🚫 Trimap-Free</h3><p>Tự động hóa hoàn toàn.</p></div>
-            <div class="glass-card"><h3>🧩 Semantic Aware</h3><p>Hiểu ngữ nghĩa đối tượng.</p></div>
-            <div class="glass-card"><h3>✨ Fine Details</h3><p>Xử lý chi tiết tóc, kính.</p></div>
-            <div class="glass-card"><h3>🚀 Generalization</h3><p>Khả năng tổng quát hóa cao.</p></div>
+            <div class="glass-card"><h3>Trimap-Free</h3><p>Tự động hóa hoàn toàn.</p></div>
+            <div class="glass-card"><h3>Semantic Aware</h3><p>Hiểu ngữ nghĩa đối tượng.</p></div>
+            <div class="glass-card"><h3>Fine Details</h3><p>Xử lý chi tiết tóc, kính.</p></div>
+            <div class="glass-card"><h3>Generalization</h3><p>Khả năng tổng quát hóa cao.</p></div>
         </div>
     </div>
 
     <div class="content-section">
 
         <div id="gioithieu" class="theory-box">
-            <h3>📖 Lý thuyết tổng quát về ZIM</h3>
+            <h3>Lý thuyết tổng quát về ZIM</h3>
             
             <p>
                 <b>1. Đặt vấn đề:</b> Các mô hình phân đoạn hiện đại như <b>SAM (Segment Anything Model)</b> có khả năng Zero-shot tuyệt vời (nhận diện mọi vật thể chưa từng học), nhưng kết quả đầu ra chỉ là "Mask thô" (Binary Mask 0/1). Điều này khiến SAM thất bại khi xử lý các vùng biên phức tạp như tóc, lông thú, hay kính trong suốt.
@@ -141,13 +141,13 @@
             
             <ul style="margin-left: 20px; margin-bottom: 15px; color: #555;">
                 <li style="margin-bottom: 8px;">
-                    <b>✨ Label Converter (Bộ chuyển đổi nhãn):</b> Đây là đóng góp quan trọng nhất. ZIM tự động chuyển đổi hàng triệu dữ liệu phân đoạn thô (SA-1B) thành dữ liệu Matting giả lập (Pseudo Alpha Matte) để huấn luyện, giúp mô hình học được chi tiết mà không cần con người gán nhãn thủ công tốn kém.
+                    <b>Label Converter (Bộ chuyển đổi nhãn):</b> Đây là đóng góp quan trọng nhất. ZIM tự động chuyển đổi hàng triệu dữ liệu phân đoạn thô (SA-1B) thành dữ liệu Matting giả lập (Pseudo Alpha Matte) để huấn luyện, giúp mô hình học được chi tiết mà không cần con người gán nhãn thủ công tốn kém.
                 </li>
                 <li style="margin-bottom: 8px;">
-                    <b>🧠 Hierarchical Pixel Decoder:</b> Một bộ giải mã phân cấp mới giúp khôi phục các chi tiết tần số cao (như sợi tóc nhỏ) mà các bộ giải mã thông thường của SAM thường bỏ qua.
+                    <b>Hierarchical Pixel Decoder:</b> Một bộ giải mã phân cấp mới giúp khôi phục các chi tiết tần số cao (như sợi tóc nhỏ) mà các bộ giải mã thông thường của SAM thường bỏ qua.
                 </li>
                 <li>
-                    <b>🎯 Prompt-Aware Attention:</b> Cơ chế chú ý mới giúp mô hình tập trung chính xác vào vùng người dùng chỉ định (điểm hoặc hộp), loại bỏ nhiễu từ các vật thể xung quanh.
+                    <b>Prompt-Aware Attention:</b> Cơ chế chú ý mới giúp mô hình tập trung chính xác vào vùng người dùng chỉ định (điểm hoặc hộp), loại bỏ nhiễu từ các vật thể xung quanh.
                 </li>
             </ul>
 
@@ -160,14 +160,14 @@
             <h2 class="section-header">So sánh: SAM vs ZIM</h2>
             <div class="comparison-container" style="margin-bottom: 80px;">
                 <div class="compare-col col-sam">
-                    <h2>🤖 SAM (Segment Anything)</h2>
+                    <h2>SAM (Segment Anything)</h2>
                     <div class="feature-item"><span class="feature-title">Mục tiêu chính</span><span class="feature-desc">Segmentation (Phân đoạn ảnh).</span></div>
                     <div class="feature-item"><span class="feature-title">Kết quả đầu ra</span><span class="feature-desc">Binary Mask (0 hoặc 1). Cắt cứng.</span></div>
                     <div class="feature-item"><span class="feature-title">Chi tiết mỏng</span><span class="feature-desc">Kém. Không thể hiện được tóc, kính.</span></div>
                 </div>
 
                 <div class="compare-col col-zim">
-                    <h2>✨ ZIM (Zero-shot Matting)</h2>
+                    <h2>ZIM (Zero-shot Matting)</h2>
                     <div class="feature-item"><span class="feature-title">Mục tiêu chính</span><span class="feature-desc">Matting (Tách nền chi tiết).</span></div>
                     <div class="feature-item"><span class="feature-title">Kết quả đầu ra</span><span class="feature-desc">Alpha Matte (0 đến 1). Cắt mềm.</span></div>
                     <div class="feature-item"><span class="feature-title">Chi tiết mỏng</span><span class="feature-desc">Rất tốt. Giữ được sợi tóc, bóng mờ.</span></div>
