@@ -3,27 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile của Dương</title>
+    <title>ZIM - Zero-Shot Image Matting</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
-        h1 { color: #2c3e50; }
-        .card { 
-            border: 1px solid #ddd; 
-            padding: 20px; 
-            border-radius: 10px; 
-            max-width: 400px; 
-            margin: auto; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        /* --- 1. CẤU HÌNH CƠ BẢN --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
+
+        /* --- 2. THANH MENU --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { font-weight: 900; font-size: 22px; color: #2c3e50; }
+        .logo span { color: #e74c3c; /* Màu đỏ nổi bật cho ZIM */ }
+        .menu-links a {
+            text-decoration: none;
+            color: #555;
+            margin-left: 30px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .menu-links a:hover { color: #e74c3c; }
+
+        /* --- 3. HERO SECTION (PHẦN ĐẦU) --- */
+        .hero-section {
+            /* Gradient chuyển từ tím than sang đỏ cam nhẹ */
+            background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px 100px 20px;
+        }
+        .hero-title { font-size: 38px; font-weight: 800; margin-bottom: 10px; }
+        .hero-subtitle { font-size: 18px; font-weight: 300; opacity: 0.9; margin-bottom: 50px; position: relative; display: inline-block; }
+        .hero-subtitle::after {
+            content: ''; display: block; width: 60px; height: 3px; background: #e74c3c; margin: 15px auto 0;
+        }
+
+        /* CARD TRONG SUỐT Ở HERO */
+        .cards-container {
+            display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            width: 260px;
+            text-align: left;
+            transition: 0.3s;
+        }
+        .glass-card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.25); }
+        .glass-card h3 { font-size: 18px; margin-bottom: 8px; color: #fff; }
+        .glass-card p { font-size: 14px; opacity: 0.9; color: #f1f1f1; }
+
+        /* --- 4. PHẦN NỘI DUNG (LÝ THUYẾT & SO SÁNH) --- */
+        .content-section { padding: 60px 20px; max-width: 1100px; margin: auto; }
+        .section-header {
+            text-align: center; font-size: 30px; font-weight: 700; color: #2c3e50; margin-bottom: 50px;
+        }
+
+        /* KHỐI LÝ THUYẾT */
+        .theory-box {
+            background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 60px;
+        }
+        .theory-box h3 { color: #e74c3c; margin-bottom: 15px; font-size: 22px; }
+        .theory-box p { margin-bottom: 15px; color: #555; text-align: justify; }
+
+        /* KHỐI SO SÁNH (VS) */
+        .comparison-container { display: flex; gap: 30px; flex-wrap: wrap; }
+        .compare-col {
+            flex: 1; min-width: 300px; padding: 30px; border-radius: 15px;
+        }
+        
+        /* Cột SAM (Xanh dương) */
+        .col-sam { background-color: #eaf2f8; border-top: 5px solid #3498db; }
+        .col-sam h2 { color: #2980b9; margin-bottom: 20px; }
+
+        /* Cột ZIM (Đỏ cam) */
+        .col-zim { background-color: #fdedec; border-top: 5px solid #e74c3c; }
+        .col-zim h2 { color: #c0392b; margin-bottom: 20px; }
+
+        .feature-item { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #ccc; }
+        .feature-item:last-child { border-bottom: none; }
+        .feature-title { font-weight: 700; display: block; margin-bottom: 5px; }
+        .feature-desc { font-size: 14px; color: #666; }
+
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>Xin chào!</h1>
-        <p>Tôi là <b>Hà Quang Dương</b></p>
-        <p>Sinh viên Hệ thống thông tin - ĐH Thủy Lợi</p>
-        <p>Sở thích: Code, Bóng rổ & AI</p>
+    <nav>
+        <div class="logo">ZIM - <span>MATTING</span></div>
+        <div class="menu-links">
+            <a href="#">Giới thiệu</a>
+            <a href="#">Lý thuyết ZIM</a>
+            <a href="#">So sánh (vs SAM)</a>
+            <a href="#">Github Code</a>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <h1 class="hero-title">ZIM: Zero-Shot Image Matting for Anything</h1>
+        <div class="hero-subtitle">Tách nền độ chính xác cao mà không cần Trimap đầu vào</div>
+
+        <div class="cards-container">
+            <div class="glass-card">
+                <h3>🚫 Trimap-Free</h3>
+                <p>Không cần người dùng vẽ tay vùng Trimap (đen/trắng/xám). Tự động hóa hoàn toàn.</p>
+            </div>
+            <div class="glass-card">
+                <h3>🧩 Semantic Aware</h3>
+                <p>Hiểu ngữ nghĩa của đối tượng (Người, Động vật, Đồ vật) để tách chính xác.</p>
+            </div>
+            <div class="glass-card">
+                <h3>✨ Fine Details</h3>
+                <p>Xử lý cực tốt các chi tiết khó như: Tóc rối, lông thú, kính trong suốt.</p>
+            </div>
+            <div class="glass-card">
+                <h3>🚀 Generalization</h3>
+                <p>Khả năng tổng quát hóa cao (Zero-shot) cho nhiều loại ảnh chưa từng huấn luyện.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+
+        <div class="theory-box">
+            <h3>📖 Lý thuyết tổng quát về ZIM</h3>
+            <p>
+                <b>Image Matting</b> truyền thống yêu cầu một đầu vào phụ gọi là "Trimap" (người dùng phải đánh dấu đâu là nền, đâu là vật thể, đâu là vùng biên). Điều này tốn công sức và hạn chế khả năng tự động hóa.
+            </p>
+            <p>
+                <b>ZIM (Zero-Shot Image Matting)</b> là một hướng tiếp cận mới sử dụng các mô hình nền tảng (Foundation Models) như CLIP hoặc Diffusion Model. ZIM hoạt động theo cơ chế "Divide and Conquer" (Chia để trị):
+                <br>1. <b>Semantic Segmentation:</b> Định vị sơ bộ vật thể (đâu là con mèo).
+                <br>2. <b>Detail Refinement:</b> Sử dụng mạng nơ-ron học sâu để tính toán giá trị Alpha (độ trong suốt) cho từng pixel ở vùng biên, giúp tách được từng sợi tóc hay làn khói mỏng.
+            </p>
+        </div>
+
+        <h2 class="section-header">So sánh: SAM vs ZIM</h2>
+        <div class="comparison-container">
+            
+            <div class="compare-col col-sam">
+                <h2>🤖 SAM (Segment Anything)</h2>
+                
+                <div class="feature-item">
+                    <span class="feature-title">Mục tiêu chính</span>
+                    <span class="feature-desc">Segmentation (Phân đoạn ảnh). Trả lời câu hỏi: "Vật thể nằm ở đâu?"</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-title">Kết quả đầu ra (Output)</span>
+                    <span class="feature-desc"><b>Binary Mask (0 hoặc 1).</b> Chỉ có trắng hoặc đen. Viền cắt thường cứng (Hard edge).</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-title">Xử lý chi tiết mỏng</span>
+                    <span class="feature-desc">Kém. Không thể hiện được tóc, kính, voan mỏng (những thứ bán trong suốt).</span>
+                </div>
+            </div>
+
+            <div class="compare-col col-zim">
+                <h2>✨ ZIM (Zero-shot Matting)</h2>
+                
+                <div class="feature-item">
+                    <span class="feature-title">Mục tiêu chính</span>
+                    <span class="feature-desc">Matting (Tách nền chi tiết). Trả lời câu hỏi: "Điểm ảnh này thuộc về vật thể bao nhiêu %?"</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-title">Kết quả đầu ra (Output)</span>
+                    <span class="feature-desc"><b>Alpha Matte (0 đến 1).</b> Có giá trị xám để thể hiện độ trong suốt. Viền cắt mềm mại (Soft edge).</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-title">Xử lý chi tiết mỏng</span>
+                    <span class="feature-desc">Rất tốt. Giữ được sợi tóc bay, bóng mờ, chất liệu kính.</span>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 </body>
