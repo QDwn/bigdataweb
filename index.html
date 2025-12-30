@@ -5,19 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZIM: Zero-Shot Image Matting for Anything</title>
     <style>
-        /* --- 1. CẤU HÌNH CƠ BẢN --- */
+        /* ================= 1. CẤU HÌNH CƠ BẢN ================= */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        /* QUAN TRỌNG: Tạo hiệu ứng cuộn mượt */
         html { scroll-behavior: smooth; }
-
-       body { 
+        body { 
     background: linear-gradient(135deg, #dfe9f3 0%, #ffffff 100%);
     color: #333; 
     line-height: 1.6; 
 }
 
-        /* --- 2. THANH MENU --- */
+        /* ================= 2. THANH MENU ================= */
         nav {
             display: flex; justify-content: space-between; align-items: center; padding: 20px 50px;
             background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;
@@ -27,52 +24,45 @@
         .menu-links a { text-decoration: none; color: #555; margin-left: 30px; font-weight: 500; transition: 0.3s; }
         .menu-links a:hover { color: #e74c3c; }
 
-        /* --- 3. HERO SECTION --- */
+        /* ================= 3. HERO SECTION ================= */
         .hero-section {
             background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%); color: white; text-align: center; padding: 80px 20px 100px 20px;
         }
         .hero-title { font-size: 38px; font-weight: 800; margin-bottom: 10px; }
         .hero-subtitle { font-size: 18px; font-weight: 300; opacity: 0.9; margin-bottom: 50px; position: relative; display: inline-block; }
         .hero-subtitle::after { content: ''; display: block; width: 60px; height: 3px; background: #e74c3c; margin: 15px auto 0; }
-        
+
         .cards-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
         .glass-card {
             background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 12px; padding: 25px; width: 260px; text-align: left; transition: 0.3s;
         }
         .glass-card:hover { transform: translateY(-5px); background: rgba(244, 167, 167, 0.25); }
-        .glass-card h3 { font-size: 18px; margin-bottom: 8px; color: #fff; }
+        .glass-card h3 { font-size: 18px; margin-bottom: 8px; color: #f5f5f5; }
         .glass-card p { font-size: 14px; opacity: 0.9; color: #f1f1f1; }
 
-        /* --- 4. SECTION CHUNG --- */
+        /* ================= 4. SECTION CHUNG ================= */
         .content-section { padding: 60px 20px; max-width: 1100px; margin: auto; }
         .section-header { text-align: center; font-size: 30px; font-weight: 700; color: #2c3e50; margin-bottom: 40px; position: relative; }
         .section-header::after { content: ''; display: block; width: 50px; height: 4px; background: #3498db; margin: 10px auto 0; border-radius: 2px; }
 
         /* CSS MỚI: Căn chỉnh vị trí cuộn để không bị menu che mất */
-        #gioithieu, #sosanh, #kientruc, #bigdata {
-            scroll-margin-top: 100px; 
-        }
+        #gioithieu, #sosanh, #kientruc, #bigdata, #tailieu { scroll-margin-top: 100px; }
 
         /* KHỐI LÝ THUYẾT */
         .theory-box { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 60px; }
         .theory-box h3 { color: #e74c3c; margin-bottom: 15px; font-size: 22px; }
         .theory-box p { margin-bottom: 15px; color: #555; text-align: justify; }
 
-        /* --- 5. SLIDESHOW CSS --- */
+        /* ================= 5. SLIDESHOW CSS ================= */
         .slideshow-wrapper { margin-bottom: 80px; }
-
         .slideshow-container {
             max-width: 900px; position: relative; margin: auto;
             background: #fff; padding: 15px; border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #eee;
         }
-        
         .mySlides1, .mySlides2 { display: none; text-align: center; }
-        
-        .slideshow-container img { 
-            width: 100%; height: auto; border-radius: 8px; max-height: 500px; object-fit: contain; 
-        }
+        .slideshow-container img { width: 100%; height: auto; border-radius: 8px; max-height: 500px; object-fit: contain; }
         .prev, .next {
             cursor: pointer; position: absolute; top: 50%; width: auto; padding: 16px; margin-top: -22px;
             color: white; font-weight: bold; font-size: 18px; transition: 0.6s ease; border-radius: 0 3px 3px 0;
@@ -81,68 +71,57 @@
         .next { right: 0; border-radius: 3px 0 0 3px; }
         .prev { left: 0; border-radius: 3px 0 0 3px; }
         .prev:hover, .next:hover { background-color: rgba(0,0,0,0.8); }
-        
         .caption-text { color: #2c3e50; font-size: 16px; padding: 10px 0; font-weight: 600; }
-        
         .dot-container { text-align: center; margin-top: 15px; }
-        .dot {
-            cursor: pointer; height: 12px; width: 12px; margin: 0 4px; background-color: #bbb;
-            border-radius: 50%; display: inline-block; transition: background-color 0.6s ease;
-        }
+        .dot { cursor: pointer; height: 12px; width: 12px; margin: 0 4px; background-color: #bbb; border-radius: 50%; display: inline-block; transition: background-color 0.6s ease; }
         .active, .dot:hover { background-color: #2c3e50; }
-        
         .fade { animation-name: fade; animation-duration: 1.5s; }
         @keyframes fade { from {opacity: .4} to {opacity: 1} }
 
-        /* --- 6. PHẦN SO SÁNH --- */
+        /* ================= 6. PHẦN SO SÁNH ================= */
         .comparison-container { display: flex; gap: 30px; flex-wrap: wrap; }
         .compare-col { flex: 1; min-width: 300px; padding: 30px; border-radius: 15px; }
-        .col-sam { background-color: #d7d4d0; border-top: 5px solid #858585; }
-        .col-zim { background-color: #d4d0cf; border-top: 5px solid #989898; }
-        .feature-item { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #ccc; }
+        .col-sam { background-color: #d7d4d0; border-top: 5px solid #858585; color: #3a59b5; }
+        .col-zim { background-color: #d4d0cf; border-top: 5px solid #989898; color: #3a59b5;}
+        .feature-item { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #ccc; color: #333; }
         .feature-item:last-child { border-bottom: none; }
         .feature-title { font-weight: 700; display: block; margin-bottom: 5px; }
-        .feature-desc { font-size: 14px; color: #666; }
-        * ================= 7. GLASS CARD CHO TÀI LIỆU ================= */
-        #tailieu .cards-container { 
-            justify-content: center; 
-            gap: 20px; 
-            flex-wrap: wrap; 
-            margin-top: 40px; 
-        }
-        
-        #tailieu .glass-card { 
-            width: 260px; 
-            text-align: left; 
-        }
-        
-        #tailieu .glass-card h3 { 
-            color: #e74c3c; 
-            font-size: 16px; 
-            margin-bottom: 6px; 
-        }
-        
-        #tailieu .glass-card p { 
-            font-size: 13px; 
-            color: #0b0505; 
-            opacity: 0.9; 
-        }
-        
-        /* CHỈNH THÊM CHO LINK TRONG CARD */
-        #tailieu .glass-card a {
-            color: #0b0505;      /* chữ đen */
-            text-decoration: none; /* bỏ gạch chân */
-            transition: color 0.3s;
-        }
-        
-        #tailieu .glass-card a:hover {
-            color: #e74c3c; /* hover màu đỏ */
-        }
+        .feature-desc { font-size: 14px; color: #4b2424; }
+
+/* ================= 7. TÀI LIỆU THAM KHẢO – MỘT KHỐI DUY NHẤT ================= */
+#tailieu .ref-box {
+    background: #cadbf1;          /* xanh dương nhạt */
+    padding: 30px 35px;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    max-width: 900px;
+    margin: auto;
+}
+
+#tailieu .ref-item {
+    display: block;
+    padding: 10px 0;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: italic;
+    color: #266dbe;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+
+#tailieu .ref-item:hover {
+    color: #e74c3c;               /* hover chữ đỏ */
+}
+
+#tailieu .ref-item:not(:last-child) {
+    border-bottom: 1px dashed #c6d9f1;
+}
 
     </style>
 </head>
 <body>
 
+    <!-- ================= NAVIGATION ================= -->
     <nav>
         <div class="logo">ZIM: <span>Zero-Shot</span></div>
         <div class="menu-links">
@@ -150,10 +129,12 @@
             <a href="#sosanh">So sánh</a>
             <a href="#kientruc">Kiến trúc</a>
             <a href="#bigdata">Big Data</a>
+            <a href="#tailieu">Tài liệu tham khảo</a>
             <a href="https://github.com/QDwn/bigdataweb" target="_blank">Github Code</a>
         </div>
     </nav>
 
+    <!-- ================= HERO ================= -->
     <div class="hero-section">
         <h1 class="hero-title">ZIM: Zero-Shot Image Matting for Anything</h1>
         <div class="hero-subtitle">Tách nền độ chính xác cao mà không cần Trimap đầu vào</div>
@@ -167,81 +148,66 @@
 
     <div class="content-section">
 
+        <!-- ================= GIỚI THIỆU ================= -->
         <div id="gioithieu" class="theory-box">
             <h3>Lý thuyết tổng quát về ZIM</h3>
-            
-            <p>
-                <b>1. Đặt vấn đề:</b> Các mô hình phân đoạn hiện đại như <b>SAM (Segment Anything Model)</b> có khả năng Zero-shot tuyệt vời (nhận diện mọi vật thể chưa từng học), nhưng kết quả đầu ra chỉ là "Mask thô" (Binary Mask 0/1). Điều này khiến SAM thất bại khi xử lý các vùng biên phức tạp như tóc, lông thú, hay kính trong suốt.
+            <p><b>1. Đặt vấn đề:</b>
             </p>
-            
-            <p>
-                <b>2. Giải pháp ZIM (Zero-Shot Image Matting):</b> ZIM được sinh ra để kết hợp sức mạnh "hiểu ngữ nghĩa" của SAM với khả năng "tách nền chi tiết" của Matting truyền thống. Mô hình hoạt động dựa trên 3 trụ cột chính:
-            </p>
-            
+            <p>Những tiến bộ gần đây trong lĩnh vực phân đoạn ảnh,
+            tiêu biểu là Segment Anything Model (SAM), 
+            đã cho thấy khả năng tổng quát hóa zero-shot vượt trội 
+            trên nhiều loại đối tượng khác nhau. Tuy nhiên, đầu ra của 
+            SAM chỉ là mặt nạ phân đoạn nhị phân, trong đó mỗi điểm ảnh
+            được gán cứng vào lớp tiền cảnh hoặc hậu cảnh. Cách biểu diễn 
+            này không đủ khả năng mô tả chính xác các vùng biên phức tạp,
+            đặc biệt là những khu vực chứa các cấu trúc mỏng, trong suốt 
+            hoặc bán trong suốt như tóc, lông thú, kính hay bóng mờ.</p>
+            <p><b>2. Giải pháp ZIM:</b></p>
+            <p>Để khắc phục hạn chế nêu trên, ZIM đề xuất một hướng tiếp 
+            cận mới bằng cách kết hợp khả năng hiểu ngữ nghĩa của mô 
+            hình phân đoạn zero-shot với bài toán image matting, qua 
+            đó cho phép ước lượng giá trị alpha liên tục cho từng điểm
+            ảnh. Thay vì chỉ xác định vị trí của đối tượng, ZIM hướng
+            tới việc mô hình hóa mức độ thuộc về tiền cảnh của mỗi điểm ảnh.</p>
             <ul style="margin-left: 20px; margin-bottom: 15px; color: #555;">
-                <li style="margin-bottom: 8px;">
-                    <b>Label Converter (Bộ chuyển đổi nhãn):</b> Đây là đóng góp quan trọng nhất. ZIM tự động chuyển đổi hàng triệu dữ liệu phân đoạn thô (SA-1B) thành dữ liệu Matting giả lập (Pseudo Alpha Matte) để huấn luyện, giúp mô hình học được chi tiết mà không cần con người gán nhãn thủ công tốn kém.
-                </li>
-                <li style="margin-bottom: 8px;">
-                    <b>Hierarchical Pixel Decoder:</b> Một bộ giải mã phân cấp mới giúp khôi phục các chi tiết tần số cao (như sợi tóc nhỏ) mà các bộ giải mã thông thường của SAM thường bỏ qua.
-                </li>
-                <li>
-                    <b>Prompt-Aware Attention:</b> Cơ chế chú ý mới giúp mô hình tập trung chính xác vào vùng người dùng chỉ định (điểm hoặc hộp), loại bỏ nhiễu từ các vật thể xung quanh.
-                </li>
+                <li><b>Label Converter:</b> Một mô-đun sinh dữ liệu mới, có nhiệm vụ chuyển đổi các nhãn phân đoạn thô thành Pseudo Alpha Matte, giúp tạo dữ liệu huấn luyện cho bài toán matting ở quy mô lớn mà không cần gán nhãn thủ công.</li>
+                <li><b>Hierarchical Pixel Decoder:</b> Bộ giải mã phân cấp được thiết kế để khai thác thông tin đa tỉ lệ, nhằm khôi phục các chi tiết tần số cao và tái tạo chính xác các vùng biên mỏng mà các kiến trúc decoder truyền thống thường làm mất.</li>
+                <li><b>Prompt-Aware Attention:</b> Cơ chế chú ý có điều kiện theo prompt đầu vào (ví dụ: điểm hoặc hộp giới hạn), cho phép mô hình tập trung chính xác vào đối tượng mục tiêu và giảm thiểu ảnh hưởng của các vùng không liên quan trong ảnh.</li>
             </ul>
-
-            <p>
-                <b>3. Kết luận:</b> ZIM không chỉ trả lời câu hỏi <i>"Vật thể nằm ở đâu?"</i> (như SAM) mà còn giải quyết bài toán <i>"Độ trong suốt của từng điểm ảnh là bao nhiêu?"</i>, mở ra kỷ nguyên mới cho xử lý ảnh tự động chất lượng cao.
-            </p>
+            <p><b>3. Kết luận:</b> ZIM giải quyết bài toán "Độ trong suốt của từng điểm ảnh".</p>
         </div>
 
+        <!-- ================= SO SÁNH ================= -->
         <div id="sosanh">
             <h2 class="section-header">So sánh: SAM vs ZIM</h2>
             <div class="comparison-container" style="margin-bottom: 80px;">
                 <div class="compare-col col-sam">
                     <h2>SAM (Segment Anything)</h2>
-                    <div class="feature-item"><span class="feature-title">Mục tiêu chính</span><span class="feature-desc">Segmentation (Phân đoạn ảnh).</span></div>
-                    <div class="feature-item"><span class="feature-title">Kết quả đầu ra</span><span class="feature-desc">Binary Mask (0 hoặc 1). Cắt cứng.</span></div>
-                    <div class="feature-item"><span class="feature-title">Chi tiết mỏng</span><span class="feature-desc">Kém. Không thể hiện được tóc, kính.</span></div>
+                    <div class="feature-item"><span class="feature-title">Mục tiêu chính</span><span class="feature-desc">Segmentation.</span></div>
+                    <div class="feature-item"><span class="feature-title">Kết quả đầu ra</span><span class="feature-desc">Binary Mask (0 hoặc 1).</span></div>
+                    <div class="feature-item"><span class="feature-title">Chi tiết mỏng</span><span class="feature-desc">Kém.</span></div>
                 </div>
-
                 <div class="compare-col col-zim">
                     <h2>ZIM (Zero-shot Matting)</h2>
-                    <div class="feature-item"><span class="feature-title">Mục tiêu chính</span><span class="feature-desc">Matting (Tách nền chi tiết).</span></div>
-                    <div class="feature-item"><span class="feature-title">Kết quả đầu ra</span><span class="feature-desc">Alpha Matte (0 đến 1). Cắt mềm.</span></div>
-                    <div class="feature-item"><span class="feature-title">Chi tiết mỏng</span><span class="feature-desc">Rất tốt. Giữ được sợi tóc, bóng mờ.</span></div>
+                    <div class="feature-item"><span class="feature-title">Mục tiêu chính</span><span class="feature-desc">Matting.</span></div>
+                    <div class="feature-item"><span class="feature-title">Kết quả đầu ra</span><span class="feature-desc">Alpha Matte (0-1).</span></div>
+                    <div class="feature-item"><span class="feature-title">Chi tiết mỏng</span><span class="feature-desc">Rất tốt.</span></div>
                 </div>
             </div>
         </div>
 
+        <!-- ================= KIẾN TRÚC ================= -->
         <div id="kientruc" class="slideshow-wrapper">
             <h2 class="section-header">1. Tổng quan kiến trúc Module</h2>
-            
             <div class="slideshow-container">
-                <div class="mySlides1 fade">
-                    <img src="ZIM.png" alt="Anh kien truc 1"> <div class="caption-text">Hình 1: Sơ đồ tổng quát ZIM</div>
-                </div>
-
-                <div class="mySlides1 fade">
-                    <img src="beo.png" alt="Anh kien truc 2"> <div class="caption-text">Hình 2: Label Converter</div>
-                </div>
-
-                <div class="mySlides1 fade">
-                    <img src="mia.png" alt="Anh kien truc 3"> <div class="caption-text">Hình 3: Encoder, Prompt</div>
-                </div>
-
-                <div class="mySlides1 fade">
-                    <img src="QD.png" alt="Anh kien truc 4"> <div class="caption-text">Hình 4: Transformer Decoder</div>
-                </div>
-
-                <div class="mySlides1 fade">
-                    <img src="nhat.png" alt="Anh kien truc 5"> <div class="caption-text">Hình 5: Hierarchical Pixel Decoder</div>
-                </div>
-
+                <div class="mySlides1 fade"><img src="ZIM.png" alt="Anh kien truc 1"><div class="caption-text">Hình 1: Sơ đồ tổng quát ZIM</div></div>
+                <div class="mySlides1 fade"><img src="beo.png" alt="Anh kien truc 2"><div class="caption-text">Hình 2: Label Converter</div></div>
+                <div class="mySlides1 fade"><img src="mia.png" alt="Anh kien truc 3"><div class="caption-text">Hình 3: Encoder, Prompt</div></div>
+                <div class="mySlides1 fade"><img src="QD.png" alt="Anh kien truc 4"><div class="caption-text">Hình 4: Transformer Decoder</div></div>
+                <div class="mySlides1 fade"><img src="nhat.png" alt="Anh kien truc 5"><div class="caption-text">Hình 5: Hierarchical Pixel Decoder</div></div>
                 <a class="prev" onclick="plusSlides(1, -1)">&#10094;</a>
                 <a class="next" onclick="plusSlides(1, 1)">&#10095;</a>
             </div>
-            
             <div class="dot-container">
                 <span class="dot" onclick="currentSlide(1, 1)"></span> 
                 <span class="dot" onclick="currentSlide(1, 2)"></span> 
@@ -251,34 +217,17 @@
             </div>
         </div>
 
+        <!-- ================= BIG DATA ================= -->
         <div id="bigdata" class="slideshow-wrapper">
             <h2 class="section-header">2. Mô hình xử lý Big Data</h2>
-            
             <div class="slideshow-container">
-                <div class="mySlides2 fade">
-                    <img src="Spark.png" alt="MapReduce 1"> 
-                    <div class="caption-text">Hình 6: Kiến trúc Spark Label Converter</div>
-                </div>
-
-                <div class="mySlides2 fade">
-                    <img src="mapthuy.jpg" alt="MapReduce 2"> 
-                    <div class="caption-text">Hình 7: Kiến trúc MapReduce Encoder &Prompt</div>
-                </div>
-                
-                <div class="mySlides2 fade">
-                    <img src="mapQD.png" alt="MapReduce 3"> 
-                    <div class="caption-text">Hình 8: Map Recude Transformer Decoder</div>
-                </div>
-
-                <div class="mySlides2 fade">
-                    <img src="map1.png" alt="MapReduce 4"> 
-                    <div class="caption-text">Hình 9: Map Recude Hierarchical Pixel</div>
-                </div>
-
+                <div class="mySlides2 fade"><img src="Spark.png" alt="MapReduce 1"><div class="caption-text">Hình 6: Kiến trúc Spark Label Converter</div></div>
+                <div class="mySlides2 fade"><img src="mapthuy.jpg" alt="MapReduce 2"><div class="caption-text">Hình 7: MapReduce Encoder & Prompt</div></div>
+                <div class="mySlides2 fade"><img src="mapQD.png" alt="MapReduce 3"><div class="caption-text">Hình 8: MapReduce Transformer Decoder</div></div>
+                <div class="mySlides2 fade"><img src="map1.png" alt="MapReduce 4"><div class="caption-text">Hình 9: MapReduce Hierarchical Pixel</div></div>
                 <a class="prev" onclick="plusSlides(2, -1)">&#10094;</a>
                 <a class="next" onclick="plusSlides(2, 1)">&#10095;</a>
             </div>
-
             <div class="dot-container">
                 <span class="dot" onclick="currentSlide(2, 1)"></span> 
                 <span class="dot" onclick="currentSlide(2, 2)"></span> 
@@ -286,82 +235,57 @@
                 <span class="dot" onclick="currentSlide(2, 4)"></span>
             </div>
         </div>
+        <!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+        <!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+<div id="tailieu" class="content-section">
+    <h2 class="section-header">Tài liệu tham khảo</h2>
+
+    <div class="ref-box">
+
+        <a class="ref-item" href="https://people.csail.mit.edu/alevin/papers/Matting-Levin-Lischinski-Weiss-CVPR06.pdf" target="_blank">
+            [1] A. Levin, D. Lischinski, and Y. Weiss, “A Closed-Form Solution to Natural Image Matting,” 
+            IEEE Transactions on Pattern Analysis and Machine Intelligence, 2008.
+        </a>
+
+        <a class="ref-item" href="https://szeliski.org/papers/Chuang_BayesianMatting_CVPR01.pdf" target="_blank">
+            [2] Y.-Y. Chuang et al., “A Bayesian Approach to Digital Matting,” CVPR, 2001.
+        </a>
+
+        <a class="ref-item" href="https://openaccess.thecvf.com/content_cvpr_2017/html/Xu_Deep_Image_Matting_CVPR_2017_paper.html" target="_blank">
+            [3] N. Xu et al., “Deep Image Matting,” CVPR, 2017.
+        </a>
+
+        <a class="ref-item" href="https://cdn.aaai.org/ojs/6809/6809-13-10038-1-10-20200524.pdf" target="_blank">
+            [4] Y. Li et al., “Natural Image Matting via Guided Contextual Attention,” AAAI, 2020.
+        </a>
+
+        <a class="ref-item" href="https://openaccess.thecvf.com/content_ICCV_2019/papers/Lu_Indices_Matter_Learning_to_Index_for_Deep_Image_Matting_ICCV_2019_paper.pdf" target="_blank">
+            [5] H. Lu et al., “Indices Matter: Learning to Index for Deep Image Matting,” ICCV, 2019.
+        </a>
+
+        <a class="ref-item" href="https://arxiv.org/abs/2103.00020" target="_blank">
+            [6] A. Radford et al., “Learning Transferable Visual Models From Natural Language Supervision,” ICML, 2021.
+        </a>
+
+        <a class="ref-item" href="https://arxiv.org/abs/2304.02643" target="_blank">
+            [7] A. Kirillov et al., “Segment Anything,” ICCV, 2023.
+        </a>
+
+        <a class="ref-item" href="https://openaccess.thecvf.com/content/ICCV2025/html/Kim_ZIM_Zero-Shot_Image_Matting_for_Anything_ICCV_2025_paper.html" target="_blank">
+            [8] J. Kim et al., “ZIM: Zero-Shot Image Matting for Anything,” ICCV, 2025.
+        </a>
+
+        <a class="ref-item" href="https://static.googleusercontent.com/media/research.google.com/fr//archive/mapreduce-osdi04.pdf" target="_blank">
+            [9] J. Dean and S. Ghemawat, “MapReduce: Simplified Data Processing on Large Clusters,” OSDI, 2004.
+        </a>
 
     </div>
-            <!-- ================= TÀI LIỆU THAM KHẢO ================= -->
-        <div id="tailieu" class="content-section">
-            <h2 class="section-header">Tài liệu tham khảo</h2>
-            <div class="cards-container">
-                
-                <a href="https://people.csail.mit.edu/alevin/papers/Matting-Levin-Lischinski-Weiss-CVPR06.pdf" target="_blank" style="text-decoration:none; width:260px;">
-                    <div class="glass-card" style="cursor:pointer;">
-                        <h3>[1] Levin, Lischinski & Weiss, 2006</h3>
-                        <p>A Closed‑Form Solution to Natural Image Matting</p>
-                    </div>
-                </a>
-        
-                <a href="https://szeliski.org/papers/Chuang_BayesianMatting_CVPR01.pdf" target="_blank" style="text-decoration:none; width:260px;">
-                    <div class="glass-card" style="cursor:pointer;">
-                        <h3>[2] Chuang et al., 2001</h3>
-                        <p>A Bayesian Approach to Digital Matting</p>
-                    </div>
-                </a>
-        
-                <a href="https://openaccess.thecvf.com/content_cvpr_2017/html/Xu_Deep_Image_Matting_CVPR_2017_paper.html" target="_blank" style="text-decoration:none; width:260px;">
-                    <div class="glass-card" style="cursor:pointer;">
-                        <h3>[3] Xu et al., 2017</h3>
-                        <p>Deep Image Matting</p>
-                    </div>
-                </a>
-        
-                <a href="https://cdn.aaai.org/ojs/6809/6809-13-10038-1-10-20200524.pdf" target="_blank" style="text-decoration:none; width:260px;">
-                    <div class="glass-card" style="cursor:pointer;">
-                        <h3>[4] Li et al., 2020</h3>
-                        <p>Natural Image Matting via Guided Contextual Attention</p>
-                    </div>
-                </a>
-        
-                <a href="https://openaccess.thecvf.com/content_ICCV_2019/papers/Lu_Indices_Matter_Learning_to_Index_for_Deep_Image_Matting_ICCV_2019_paper.pdf" target="_blank" style="text-decoration:none; width:260px;">
-                    <div class="glass-card" style="cursor:pointer;">
-                        <h3>[5] Lu et al., 2019</h3>
-                        <p>Indices Matter: Learning to Index for Deep Image Matting</p>
-                    </div>
-                </a>
-        
-                <a href="https://arxiv.org/abs/2103.00020" target="_blank" style="text-decoration:none; width:260px;">
-                    <div class="glass-card" style="cursor:pointer;">
-                        <h3>[6] Radford et al., 2021</h3>
-                        <p>Learning Transferable Visual Models From Natural Language Supervision</p>
-                    </div>
-                </a>
-        
-                <a href="https://arxiv.org/abs/2304.02643" target="_blank" style="text-decoration:none; width:260px;">
-                    <div class="glass-card" style="cursor:pointer;">
-                        <h3>[7] Segment Anything, 2023</h3>
-                        <p>Segment Anything</p>
-                    </div>
-                </a>
-        
-                <a href="https://openaccess.thecvf.com/content/ICCV2025/html/Kim_ZIM_Zero-Shot_Image_Matting_for_Anything_ICCV_2025_paper.html" target="_blank" style="text-decoration:none; width:260px;">
-                    <div class="glass-card" style="cursor:pointer;">
-                        <h3>[8] ZIM: Zero‑Shot Image Matting for Anything, 2025</h3>
-                        <p>ZIM: Zero‑Shot Image Matting for Anything</p>
-                    </div>
-                </a>
-        
-                <a href="https://static.googleusercontent.com/media/research.google.com/fr//archive/mapreduce-osdi04.pdf" target="_blank" style="text-decoration:none; width:260px;">
-                    <div class="glass-card" style="cursor:pointer;">
-                        <h3>[9] Dean & Ghemawat, 2004</h3>
-                        <p>MapReduce: Simplified Data Processing on Large Clusters</p>
-                    </div>
-                </a>
-        
-            </div>
-        </div>
+</div>
+
         
         <!-- =================CUỐI TRANG ================= -->
         <div class="theory-box" style="text-align:center; margin-bottom:50px;">
-            <h3>Đề tài báo cáo: Xử lý ảnh ZIM - Zero-Shot Image Matting for Anything</h3>
+            <h3 style="color: #266dbe;">Đề tài báo cáo: Xử lý ảnh ZIM - Zero-Shot Image Matting for Anything</h3>
             <p style="text-align:center"><b>Thực hiện bởi các thành viên:</b></p>
             <ul style="list-style: none; padding: 0; margin: 0; font-size:16px; color:#555; display: inline-block; text-align: left;">
                 <li>1. Hoàng Thanh Trang</li>
@@ -370,41 +294,4 @@
                 <li>4. Trần Hoàng Nhất</li>
             </ul>
         </div>
-
-    <script>
-        // Khởi tạo trạng thái cho 2 slider (Slider 1: index=1, Slider 2: index=1)
-        let slideIndex = [1, 1];
-        // Tên class tương ứng cho từng slider
-        let slideId = ["mySlides1", "mySlides2"];
-        
-        // Khởi chạy lần đầu
-        showSlides(1, 0); // Chạy slider 1
-        showSlides(1, 1); // Chạy slider 2
-
-        // Hàm xử lý nút Next/Prev
-        function plusSlides(no, n) {
-            showSlides(slideIndex[no-1] += n, no-1);
-        }
-
-        // Hàm xử lý nút chấm tròn
-        function currentSlide(no, n) {
-            showSlides(slideIndex[no-1] = n, no-1);
-        }
-
-        function showSlides(n, no) {
-            let i;
-            let x = document.getElementsByClassName(slideId[no]);
             
-            if (n > x.length) {slideIndex[no] = 1}    
-            if (n < 1) {slideIndex[no] = x.length}
-            
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";  
-            }
-            
-            x[slideIndex[no]-1].style.display = "block";  
-        }
-    </script>
-
-</body>
-</html>
