@@ -294,4 +294,40 @@
                 <li>4. Trần Hoàng Nhất</li>
             </ul>
         </div>
+    <script>
+        // Khởi tạo trạng thái cho 2 slider (Slider 1: index=1, Slider 2: index=1)
+        let slideIndex = [1, 1];
+        // Tên class tương ứng cho từng slider
+        let slideId = ["mySlides1", "mySlides2"];
+        
+        // Khởi chạy lần đầu
+        showSlides(1, 0); // Chạy slider 1
+        showSlides(1, 1); // Chạy slider 2
+
+        // Hàm xử lý nút Next/Prev
+        function plusSlides(no, n) {
+            showSlides(slideIndex[no-1] += n, no-1);
+        }
+
+        // Hàm xử lý nút chấm tròn
+        function currentSlide(no, n) {
+            showSlides(slideIndex[no-1] = n, no-1);
+        }
+
+        function showSlides(n, no) {
+            let i;
+            let x = document.getElementsByClassName(slideId[no]);
             
+            if (n > x.length) {slideIndex[no] = 1}    
+            if (n < 1) {slideIndex[no] = x.length}
+            
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";  
+            }
+            
+            x[slideIndex[no]-1].style.display = "block";  
+        }
+    </script>
+
+</body>
+</html>
